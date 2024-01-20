@@ -19,6 +19,9 @@ devDependencies:
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
+  '@types/node':
+    specifier: ^20.11.5
+    version: 20.11.5
   prisma:
     specifier: ^5.8.1
     version: 5.8.1

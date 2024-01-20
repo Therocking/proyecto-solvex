@@ -1,4 +1,5 @@
 import { Router } from "express";
+import ProjectsRoutes from "../projects/routes";
 
 
 class UsersRoutes {
@@ -6,10 +7,7 @@ class UsersRoutes {
   public static get Routes(): Router {
      const routes = Router()
 
-     routes.get("/")
-     routes.post("/")
-     routes.put("/:id")
-     routes.delete("/:id")
+     routes.use("api/projects", ProjectsRoutes.Routes)
 
      return routes
   } 

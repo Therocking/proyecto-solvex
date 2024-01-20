@@ -1,4 +1,7 @@
 import { Router } from "express";
+import { PostgreProjectRepository } from "../../infracstructure/repositories/projects/project.postgre.repository";
+import { ProjectsService } from "../services/projects.services";
+import { ProjectsController } from "./controllers";
 
 
 class ProjectsRoutes {
@@ -6,10 +9,14 @@ class ProjectsRoutes {
   public static get Routes(): Router {
      const routes = Router()
 
-     routes.get("/")
-     routes.post("/")
-     routes.put("/:id")
-     routes.delete("/:id")
+     const repository = new PostgreProjectRepository()
+     const service = new ProjectsService(repository)
+     const controller = new ProjectsController(service)
+
+     routes.get("/", controller.GetAll)
+     routes.post("/", controller.Create)
+     routes.put("/:id", controller.Update)
+     routes.delete("/:id", controller.Delete)
 
      return routes
   } 

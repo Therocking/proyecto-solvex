@@ -1,14 +1,17 @@
-import PrismaDb from "../../db/prismaClient"
-import { PostProject, Project, PutProject } from "../../interfaces/projects.interface"
+import PrismaDb from "../../../db/prismaClient"
+import { PostProject, Project, PutProject } from "../../../interfaces/projects.interface"
+import { ProjectRepository } from "./project.repository"
 
-abstract class ProjectRepository {
-   public abstract GetAllProjects(): Promise<Project[]>
-   public abstract CreateProject(project: PostProject): Promise<Project>
-   public abstract UpdateProject(project: PutProject): Promise<Project>
-   public abstract DeleteProject(id: string): Promise<Project>
-}
 
-export class PostgreRepository implements ProjectRepository {
+export class PostgreProjectRepository implements ProjectRepository {
+
+   public async GetProjectById(id: string): Promise<Project> {
+       const project = await PrismaDb.prisma.project.findFirst({
+	  where: {id}
+       })
+
+       return project! // Indica que nunca sera nulo
+   }
    
    public async GetAllProjects(): Promise<Project[]> {
       // TODO: Paginacion
