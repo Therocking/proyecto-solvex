@@ -21,7 +21,9 @@ export class ProjectsController {
    }
 
    public Update = (req: Request, res: Response) => {
-      this.service.Update(req.body)
+      const id = req.params.id
+
+      this.service.Update({...req.body, id})
 	 .then(resp => res.json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }

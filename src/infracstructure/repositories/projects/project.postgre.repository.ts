@@ -20,23 +20,23 @@ export class PostgreProjectRepository implements ProjectRepository {
       return projects
    }
 
-   public async CreateProject(project: PostProject): Promise<Project> {
-      const projectToCreate = await PrismaDb.prisma.project.create({
-	 data: project
+   public async CreateProject(dataForPost: PostProject): Promise<Project> {
+      const project= await PrismaDb.prisma.project.create({
+	 data: dataForPost
       })
       
-      return projectToCreate
+      return project
    }
 
-   public async UpdateProject(project: PutProject): Promise<Project> {
-      const {id, ...data} = project
+   public async UpdateProject(dataForUpdate: PutProject): Promise<Project> {
+      const {id, ...data} = dataForUpdate
 
-      const projectToUpdate = await PrismaDb.prisma.project.update({
+      const project= await PrismaDb.prisma.project.update({
 	 where: {id},
 	 data
       })
 
-      return projectToUpdate
+      return project
    }
 
    public async DeleteProject(id: string): Promise<Project> {
