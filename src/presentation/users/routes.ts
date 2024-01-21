@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { PostgreUserRepository } from "../../infracstructure/repositories/users/user.postgre.repository";
-import { UsersService } from "../services/users.services";
 import { UsersController } from "./controllers";
+import { PostgreUserRepository } from "../../infracstructure/repositories";
+import { UsersService } from "../services/users.services";
 
 
 class UsersRoutes {

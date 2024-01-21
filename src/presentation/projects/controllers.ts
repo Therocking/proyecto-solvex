@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProjectsService } from "../services/projects.services";
-import { CustomHandleError } from "../../helpers/handleErrors.helper";
+import { CustomHandleError } from "../../helpers";
 
 
 export class ProjectsController {

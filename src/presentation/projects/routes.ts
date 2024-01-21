@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { PostgreProjectRepository } from "../../infracstructure/repositories/projects/project.postgre.repository";
 import { ProjectsService } from "../services/projects.services";
 import { ProjectsController } from "./controllers";
+import { PostgreProjectRepository } from "../../infracstructure/repositories";
 
 
 class ProjectsRoutes {

@@ -1,6 +1,6 @@
-import { CustomHttpErrors } from "../../helpers/customHttpErrors.helper";
-import { PostgreProjectRepository } from "../../infracstructure/repositories/projects/project.postgre.repository";
-import { PostProject, PutProject } from "../../interfaces/projects.interface";
+import { CustomHttpErrors } from "../../helpers"
+import { PostgreProjectRepository } from "../../infracstructure/repositories"
+import { PostProject, PutProject } from "../../interfaces"
 
 
 export class ProjectsService {
