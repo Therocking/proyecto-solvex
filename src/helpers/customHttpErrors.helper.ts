@@ -20,6 +20,6 @@ export class CustomHttpErrors extends Error {
    }
 
    public static InternalError(msg:string) {
-      return new CustomHttpErrors(500, msg)
+      throw new CustomHttpErrors(500, msg)
    }
 }

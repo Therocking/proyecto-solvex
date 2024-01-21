@@ -7,6 +7,6 @@ export class CustomHandleError {
       if(error instanceof CustomHttpErrors) return res.status(error.statusCode).json({ error: error.msg })
 
       console.log(error)
-      return res.status(500).json({error})
+      return res.status(500).json(error)
    }
 }
