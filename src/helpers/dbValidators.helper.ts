@@ -10,6 +10,7 @@ export class DbValidators {
       const user = await this.UserRepository.GetUserByMail(mail)
 
       if(user) throw DicErrors.MAIL_IN_USE
+	 else throw DicErrors.INCORRECT_PASS
    }
 
    public ExistUserById = async(id: string) => {

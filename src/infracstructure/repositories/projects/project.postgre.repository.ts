@@ -40,7 +40,7 @@ export class PostgreProjectRepository implements ProjectRepository {
 
       const project= await PrismaDb.prisma.project.update({
 	 where: {id},
-	 data
+	 data: {name: data.name, description: data.description}
       })
 
       return project

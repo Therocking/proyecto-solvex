@@ -40,7 +40,7 @@ export class PostgreUserRepository implements UserRepository {
 
        const user = await PrismaDb.prisma.user.update({
 	  where: {id},
-	  data
+	  data: {name: data.name, password: data.password}
        })
 
        return user

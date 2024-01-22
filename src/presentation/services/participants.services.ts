@@ -32,7 +32,7 @@ export class ParticipantsService {
    public async Delete(userId: string, projectId: string) {
       try {
 	 const participant = await this.repository.DeleteParticipant(userId, projectId) 
-	 if(!participant) CustomHttpErrors.NotFound(DicErrors.PARTICIPANT_NOT_FOUND)
+	 if(!participant) return CustomHttpErrors.NotFound(DicErrors.PARTICIPANT_NOT_FOUND)
 
 	 return participant
       }catch(err) {

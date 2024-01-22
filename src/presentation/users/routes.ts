@@ -7,6 +7,7 @@ import { check } from "express-validator";
 import { DicErrors } from "../../errors/diccionaryErrors";
 import { ShowExpressValidatorErrors } from "../middlewares/showErrors.middleware";
 import { DbValidators } from "../../helpers/dbValidators.helper";
+import { ValidIfUserIsOwner } from "../middlewares/userOwner.middleware";
 
 
 class UsersRoutes {
@@ -29,6 +30,7 @@ class UsersRoutes {
 	authMiddleware.validUser,
 	check("id", DicErrors.MISSING_ID).notEmpty(),
 	check("id").custom(dbValidators.ExistUserById),
+	check("id").custom(ValidIfUserIsOwner.IsUserOwnerAccount),
 	ShowExpressValidatorErrors.validFields // Show the errors of check
      ],controller.Update)
 
@@ -36,6 +38,7 @@ class UsersRoutes {
 	authMiddleware.validUser,
 	check("id", DicErrors.MISSING_ID).notEmpty(),
 	check("id").custom(dbValidators.ExistUserById),
+	check("id").custom(ValidIfUserIsOwner.IsUserOwnerAccount),
 	ShowExpressValidatorErrors.validFields // Show the errors of check
      ],controller.Delete)
 

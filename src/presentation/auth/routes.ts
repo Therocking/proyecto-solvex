@@ -7,6 +7,7 @@ import { PostgreUserRepository } from "../../infracstructure/repositories";
 import { check } from "express-validator";
 import { DicErrors } from "../../errors/diccionaryErrors";
 import { ShowExpressValidatorErrors } from "../middlewares/showErrors.middleware";
+import { DbValidators } from "../../helpers/dbValidators.helper";
 
 
 class AuthRoutes {
@@ -19,8 +20,11 @@ class AuthRoutes {
      const service = new AuthService(repository, jwt)
      const controller = new AuthController(service)
 
+     const dbValidators = new DbValidators()
+
      routes.post("/register",[
 	 check("mail", DicErrors.MISSING_MAIL).notEmpty().isEmail(),
+	 check("mail").custom(dbValidators.ExistUserByMail),
 	 check("password", DicErrors.MISSING_PASS).notEmpty(),
 	 check("password", DicErrors.PASS_MUST_BE_STRING).isString(),
 	 check("name", DicErrors.MISSING_NAME).notEmpty(),
@@ -30,6 +34,7 @@ class AuthRoutes {
 
      routes.post("/login",[
 	 check("mail", DicErrors.MISSING_MAIL).notEmpty().isEmail(),
+	 check("mail").custom(dbValidators.ExistUserByMail),
 	 check("password", DicErrors.MISSING_PASS).notEmpty(),
 	 check("password", DicErrors.PASS_MUST_BE_STRING).isString(),
 	 ShowExpressValidatorErrors.validFields// Show the errors of check

@@ -26,7 +26,6 @@ export class AuthService{
 	 }
 
       }catch(err) {
-      console.log(err)
 	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
@@ -34,10 +33,11 @@ export class AuthService{
    public async Login(mail: string, password: string) {
       try {
 	 const user = await this.repository.GetUserByMail(mail)
+	 if(user === null) return CustomHttpErrors.NotFound(DicErrors.USER_NOT_FOUND)
 
 	 // Verify if the hashed pass and the pass in args are the same
 	 const isCorrectPass = BcryptAdapter.compare(password, user!.password)
-	 if(!isCorrectPass) CustomHttpErrors.BadRequest(DicErrors.INCORRECT_PASS)
+	 if(!isCorrectPass) return CustomHttpErrors.BadRequest(DicErrors.INCORRECT_PASS)
 
 	 const token = await this.jwt.Generate({id: user!.id})
 
@@ -46,6 +46,7 @@ export class AuthService{
 	    token
 	 }
       }catch(err) {
+      console.log(err)
 	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }

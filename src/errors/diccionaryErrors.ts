@@ -5,6 +5,7 @@ export const DicErrors = {
    PARTICIPANT_NOT_FOUND: "Participant not found",
    PASS_MUST_BE_STRING: "The password must be a string",
    USER_NOT_FOUND: "User not found",
+   USER_NOT_OWNER: "Action not authorize. User not owner.",
    TOKEN_EXPIRED: "The token has expired",
    NAME_MUST_BE_STRING: "The name must be a string",
    MAIL_IN_USE: "Mail already in use",

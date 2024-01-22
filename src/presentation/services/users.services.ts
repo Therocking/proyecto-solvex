@@ -30,6 +30,7 @@ export class UsersService {
 
 	 return user
       }catch(err) {
+	 console.log(err)
 	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
