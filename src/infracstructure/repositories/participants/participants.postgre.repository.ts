@@ -5,8 +5,10 @@ import { ParticipantRepository } from "./participants.repository";
 
 export class PostgreParticipantRepository implements ParticipantRepository {
 
-   public async GetAllParticipants(): Promise<Participant[]> {
-       const participants = await PrismaDb.prisma.partitipant.findMany()
+   public async GetAllParticipants(projectId: string): Promise<Participant[]> {
+       const participants = await PrismaDb.prisma.partitipant.findMany({
+	  where: {project_id: projectId}
+       })
 
        return participants
    }
@@ -19,9 +21,9 @@ export class PostgreParticipantRepository implements ParticipantRepository {
        return participant
    }
 
-   public async DeleteParticipant(userId: string): Promise<Participant> {
+   public async DeleteParticipant(userId: string, projectId: string): Promise<Participant> {
        const participant = await PrismaDb.prisma.partitipant.delete({
-	  where: {user_id: userId}
+	  where: {user_id: userId, project_id: projectId}
        })
 
        return participant

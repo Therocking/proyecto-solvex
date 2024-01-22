@@ -5,12 +5,20 @@ import { UserRepository } from "./user.repository";
 
 export class PostgreUserRepository implements UserRepository {
 
-   public async GetUserById(id: string): Promise<User> {
+   public async GetUserById(id: string): Promise<User | null> {
        const user = await PrismaDb.prisma.user.findFirst({
 	  where: {id}
        })
 
-       return user!
+       return user
+   }
+
+   public async GetUserByMail(mail: string): Promise<User | null> {
+      const user = await PrismaDb.prisma.user.findFirst({
+	 where: {mail}
+      })
+
+      return user
    }
 
    public async GetAllUsers(): Promise<User[]> {

@@ -1,8 +1,9 @@
 import { BcryptAdapter } from "../../adapters/bcrypt.adapter";
+import { JwtAdapter } from "../../adapters/jwt.adapter";
 import { CustomHttpErrors } from "../../helpers/customHttpErrors.helper";
 import { UserRepository } from "../../infracstructure/repositories/users/user.repository";
 import { PostUser, PutUser } from "../../interfaces/users.interface";
-
+import { DicErrors } from "../../errors/diccionaryErrors";
 
 export class UsersService {
    constructor(
@@ -15,22 +16,9 @@ export class UsersService {
 
 	 return users
       }catch(err) {
-	 CustomHttpErrors.InternalError("Error en GetAll - userServices")
+	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
-   }
-
-   public async Create(dataForPost: PostUser) {
-      try {
-	 // Encripata el pass del usuario
-	 dataForPost.password = BcryptAdapter.hash(dataForPost.password)
-
-	 const user = await this.repository.CreateUser(dataForPost)
-
-	 return user
-      }catch(err) {
-	 CustomHttpErrors.InternalError("Error en Create - userServices")
-      }
-   }
+   } 
 
    public async Update(dataForUpdate: PutUser) {
       try {
@@ -42,7 +30,7 @@ export class UsersService {
 
 	 return user
       }catch(err) {
-	 CustomHttpErrors.InternalError("Error en Update - userServices")
+	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
@@ -52,7 +40,7 @@ export class UsersService {
 
 	 return user
       }catch(err) {
-	 CustomHttpErrors.InternalError("Error en Delete - userServices")
+	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 }

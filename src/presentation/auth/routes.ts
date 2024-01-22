@@ -1,0 +1,42 @@
+import { Router } from "express";
+import { AuthService } from "../services/auth.services";
+import { JwtAdapter } from "../../adapters/jwt.adapter";
+import { envs } from "../../adapters";
+import { AuthController } from "./controller";
+import { PostgreUserRepository } from "../../infracstructure/repositories";
+import { check } from "express-validator";
+import { DicErrors } from "../../errors/diccionaryErrors";
+import { ShowExpressValidatorErrors } from "../middlewares/showErrors.middleware";
+
+
+class AuthRoutes {
+
+  public static get Routes(): Router {
+     const routes = Router()
+
+     const jwt = new JwtAdapter(envs.JWTSEED)
+     const repository = new PostgreUserRepository()
+     const service = new AuthService(repository, jwt)
+     const controller = new AuthController(service)
+
+     routes.post("/register",[
+	 check("mail", DicErrors.MISSING_MAIL).notEmpty().isEmail(),
+	 check("password", DicErrors.MISSING_PASS).notEmpty(),
+	 check("password", DicErrors.PASS_MUST_BE_STRING).isString(),
+	 check("name", DicErrors.MISSING_NAME).notEmpty(),
+	 check("name", DicErrors.NAME_MUST_BE_STRING).isString(),
+	 ShowExpressValidatorErrors.validFields// Show the errors of check
+     ],controller.Register)
+
+     routes.post("/login",[
+	 check("mail", DicErrors.MISSING_MAIL).notEmpty().isEmail(),
+	 check("password", DicErrors.MISSING_PASS).notEmpty(),
+	 check("password", DicErrors.PASS_MUST_BE_STRING).isString(),
+	 ShowExpressValidatorErrors.validFields// Show the errors of check
+     ],controller.Login)
+
+     return routes
+  } 
+} 
+
+export default AuthRoutes

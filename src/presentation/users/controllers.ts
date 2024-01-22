@@ -14,15 +14,6 @@ export class UsersController {
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }
 
-   public Create = (req: Request, res: Response) => {
-      this.service.Create(req.body)
-	 .then(resp => res.json(resp))
-	 .catch(err => {
-	    console.log(err.msg)
-	    CustomHandleError.HandleError(err, res)
-	 })
-   }
-
    public Update = (req: Request, res: Response) => {
       const id = req.params.id
 

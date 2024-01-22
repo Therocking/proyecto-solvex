@@ -5,24 +5,31 @@ import { ProjectRepository } from "./project.repository"
 
 export class PostgreProjectRepository implements ProjectRepository {
 
-   public async GetProjectById(id: string): Promise<Project> {
+   public async GetProjectById(id: string): Promise<Project | null> {
        const project = await PrismaDb.prisma.project.findFirst({
 	  where: {id}
        })
 
-       return project! // Indica que nunca sera nulo
+       return project 
    }
    
-   public async GetAllProjects(): Promise<Project[]> {
+   public async GetAllProjects(userId: string): Promise<Project[]> {
       // TODO: Paginacion
-      const projects = await PrismaDb.prisma.project.findMany()
+      const projects = await PrismaDb.prisma.project.findMany({
+	 where: {
+	    user_id: userId
+	 }
+      })
 
       return projects
    }
 
    public async CreateProject(dataForPost: PostProject): Promise<Project> {
       const project= await PrismaDb.prisma.project.create({
-	 data: dataForPost
+	 data: {
+	    name: dataForPost.name,
+	    user_id: dataForPost.user_id
+	 } 
       })
       
       return project

@@ -2,6 +2,7 @@ export interface User {
    id: string
    name: string
    mail: string
+   password: string
    created_at?: Date | null
 }
 

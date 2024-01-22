@@ -1,3 +1,4 @@
+import { DicErrors } from "../../errors/diccionaryErrors"
 import { CustomHttpErrors } from "../../helpers"
 import { PostgreProjectRepository } from "../../infracstructure/repositories"
 import { PostProject, PutProject } from "../../interfaces"
@@ -8,13 +9,13 @@ export class ProjectsService {
       private readonly repository: PostgreProjectRepository
    ){}
 
-   public async GetAll() {
+   public async GetAll(userId: string) {
       try {
-	 const projects = await this.repository.GetAllProjects()
+	 const projects = await this.repository.GetAllProjects(userId)
 
 	 return projects
       }catch(err) {
-	 CustomHttpErrors.InternalError("Error en GetAll func - proyectos")
+	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
@@ -24,7 +25,7 @@ export class ProjectsService {
 
 	 return project
       }catch(err) {
-	 CustomHttpErrors.InternalError("Error en Create func - proyectos")
+	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
@@ -34,7 +35,7 @@ export class ProjectsService {
 
 	 return project
       }catch(err) {
-	 CustomHttpErrors.InternalError("Error en update func - proyectos")
+	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
@@ -44,7 +45,7 @@ export class ProjectsService {
 
 	 return project
       }catch(err) {
-	 CustomHttpErrors.InternalError("Error en Delete fun - proyects")
+	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 }

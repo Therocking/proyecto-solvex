@@ -8,8 +8,11 @@ export class ProjectsController {
       private readonly service: ProjectsService
    ) {}
 
-   public GetAll = (_req: Request, res: Response) => {
-      this.service.GetAll()
+   public GetAll = (req: Request, res: Response) => {
+      const userId = req.body.user.id
+      console.log(req.body.user)
+
+      this.service.GetAll(userId)
 	 .then(resp => res.json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }

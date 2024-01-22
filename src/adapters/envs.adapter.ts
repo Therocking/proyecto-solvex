@@ -8,5 +8,5 @@ export const envs = {
    //POSTGRES_DB: env.get('POSTGRES_DB').required().asString(),
    //POSTGRES_PASSWORD: env.get('POSTGRES_PASSWORD').required().asString(),
    
-   //SECRETJWT: env.get('SECRETJWT').required().asString(),
+   JWTSEED: env.get('JWTSEED').required().asString(),
 }
