@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --env-file .env --respawn --clear ./src/app.ts"
+    "dev": "tsnd --env-file .env --respawn --clear ./src/app.ts",
+    "build": "tsc && pnpm run prisma:deploy",
+    "start": "pnpm run build && node ./dist/app.js",
+    "prisma:deploy": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
