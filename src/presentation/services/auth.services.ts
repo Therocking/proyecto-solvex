@@ -13,7 +13,7 @@ export class AuthService{
 
    public async Register(dataForPost: PostUser) {
       try {
-	 // Encripata el pass del usuario
+	 // Hash user password
 	 dataForPost.password = BcryptAdapter.hash(dataForPost.password)
 
 	 const user = await this.repository.CreateUser(dataForPost)
@@ -26,18 +26,18 @@ export class AuthService{
 	 }
 
       }catch(err) {
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
    public async Login(mail: string, password: string) {
       try {
 	 const user = await this.repository.GetUserByMail(mail)
-	 if(user === null) return CustomHttpErrors.NotFound(DicErrors.USER_NOT_FOUND)
+	 if(user === null) throw CustomHttpErrors.NotFound(DicErrors.USER_NOT_FOUND)
 
 	 // Verify if the hashed pass and the pass in args are the same
 	 const isCorrectPass = BcryptAdapter.compare(password, user!.password)
-	 if(!isCorrectPass) return CustomHttpErrors.BadRequest(DicErrors.INCORRECT_PASS)
+	 if(!isCorrectPass) throw CustomHttpErrors.BadRequest(DicErrors.INCORRECT_PASS)
 
 	 const token = await this.jwt.Generate({id: user!.id})
 
@@ -46,8 +46,8 @@ export class AuthService{
 	    token
 	 }
       }catch(err) {
-      console.log(err)
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+	 if(err instanceof CustomHttpErrors) throw err
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 }

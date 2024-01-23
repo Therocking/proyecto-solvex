@@ -20,6 +20,7 @@ class AuthRoutes {
      const service = new AuthService(repository, jwt)
      const controller = new AuthController(service)
 
+     /*Middleware classes*/
      const dbValidators = new DbValidators()
 
      routes.post("/register",[
@@ -34,7 +35,6 @@ class AuthRoutes {
 
      routes.post("/login",[
 	 check("mail", DicErrors.MISSING_MAIL).notEmpty().isEmail(),
-	 check("mail").custom(dbValidators.ExistUserByMail),
 	 check("password", DicErrors.MISSING_PASS).notEmpty(),
 	 check("password", DicErrors.PASS_MUST_BE_STRING).isString(),
 	 ShowExpressValidatorErrors.validFields// Show the errors of check

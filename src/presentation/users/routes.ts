@@ -19,12 +19,13 @@ class UsersRoutes {
      const service = new UsersService(repository)
      const controller = new UsersController(service)
 
+     /*Middleware classes*/
      const authMiddleware = new AuthMiddleware()
      const dbValidators = new DbValidators()
 
      routes.get("/",
-	 authMiddleware.validUser
-     ,controller.GetAll)
+	 //authMiddleware.validUser
+     controller.GetAll)
 
      routes.put("/:id",[
 	authMiddleware.validUser,

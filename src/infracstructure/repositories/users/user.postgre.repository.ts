@@ -1,5 +1,5 @@
 import PrismaDb from "../../../db/prismaClient";
-import { PostUser, PutUser, User } from "../../../interfaces/users.interface";
+import { GetUser, PostUser, PutUser, User } from "../../../interfaces/users.interface";
 import { UserRepository } from "./user.repository";
 
 
@@ -21,8 +21,12 @@ export class PostgreUserRepository implements UserRepository {
       return user
    }
 
-   public async GetAllUsers(): Promise<User[]> {
-       const users = await PrismaDb.prisma.user.findMany();
+   public async GetAllUsers(dataForGet: GetUser): Promise<User[]> {
+       const users = await PrismaDb.prisma.user.findMany({
+	  skip: dataForGet.skip,
+	  take: dataForGet.limit,
+	  orderBy: {name: "asc"}
+       });
 
        return users
    }

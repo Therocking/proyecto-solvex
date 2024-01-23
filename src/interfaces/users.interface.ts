@@ -6,6 +6,11 @@ export interface User {
    created_at?: Date | null
 }
 
+export interface GetUser {
+   skip: number,
+   limit: number
+}
+
 export interface PostUser {
    name: string
    mail: string

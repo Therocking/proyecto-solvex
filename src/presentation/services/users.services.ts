@@ -1,8 +1,7 @@
 import { BcryptAdapter } from "../../adapters/bcrypt.adapter";
-import { JwtAdapter } from "../../adapters/jwt.adapter";
 import { CustomHttpErrors } from "../../helpers/customHttpErrors.helper";
 import { UserRepository } from "../../infracstructure/repositories/users/user.repository";
-import { PostUser, PutUser } from "../../interfaces/users.interface";
+import { GetUser, PutUser } from "../../interfaces/users.interface";
 import { DicErrors } from "../../errors/diccionaryErrors";
 
 export class UsersService {
@@ -10,13 +9,27 @@ export class UsersService {
       private readonly repository: UserRepository
    ) {}
 
-   public async GetAll() {
+   public async GetAll(dataForGet: GetUser) {
       try {
-	 const users = await this.repository.GetAllUsers()
+	 const users = await this.repository.GetAllUsers(dataForGet)
 
-	 return users
+	 const usersWithOutPass = users.map(user => {
+	    const {password, ...data} = user
+
+	    return data
+	 })
+
+	 const pagination = {
+	    skip: dataForGet.skip,
+	    limit: dataForGet.limit
+	 }
+
+	 return { 
+	    pagination,
+	    users: usersWithOutPass
+	 }
       }catch(err) {
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    } 
 
@@ -31,7 +44,7 @@ export class UsersService {
 	 return user
       }catch(err) {
 	 console.log(err)
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+ 	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
@@ -41,7 +54,7 @@ export class UsersService {
 
 	 return user
       }catch(err) {
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 }

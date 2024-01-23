@@ -8,8 +8,13 @@ export class UsersController {
       private readonly service: UsersService
    ) {}
 
-   public GetAll = (_req: Request, res: Response) => {
-      this.service.GetAll()
+   public GetAll = (req: Request, res: Response) => {
+      const {skip=0, limit=5} = req.query
+
+      const skipToNumber = Number(skip)
+      const limitToNumber = Number(limit)
+
+      this.service.GetAll({skip: skipToNumber, limit: limitToNumber})
 	 .then(resp => res.json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }

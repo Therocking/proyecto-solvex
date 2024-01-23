@@ -1,4 +1,5 @@
 import express, {Router} from "express";
+import cors from "cors";
 
 interface Opts {
    port: number
@@ -17,8 +18,10 @@ export class Server {
 
     public Start(): void {
       /*middlewares*/
+      this.app.use( cors() )
       this.app.use( express.json() )
       this.app.use( this.routes )
+      
 
       // Ruta por defecto 
       this.app.get( "*", (_req, res) => {

@@ -8,6 +8,12 @@ export interface Project {
    finished_at?: Date | null
 }
 
+export interface GetProject {
+   user_id: string,
+   skip: number,
+   limit: number
+}
+
 export interface PostProject {
    name: string
    description?: string | null

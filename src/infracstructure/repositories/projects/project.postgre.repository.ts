@@ -1,5 +1,5 @@
 import PrismaDb from "../../../db/prismaClient"
-import { PostProject, Project, PutProject } from "../../../interfaces/projects.interface"
+import { GetProject, PostProject, Project, PutProject } from "../../../interfaces/projects.interface"
 import { ProjectRepository } from "./project.repository"
 
 
@@ -13,12 +13,15 @@ export class PostgreProjectRepository implements ProjectRepository {
        return project 
    }
    
-   public async GetAllProjects(userId: string): Promise<Project[]> {
+   public async GetAllProjects(dataForGet: GetProject): Promise<Project[]> {
       // TODO: Paginacion
       const projects = await PrismaDb.prisma.project.findMany({
 	 where: {
-	    user_id: userId
-	 }
+	    user_id: dataForGet.user_id
+	 }, 
+	 skip: dataForGet.skip,
+	 take: dataForGet.limit,
+	 orderBy: {name: "asc"}
       })
 
       return projects

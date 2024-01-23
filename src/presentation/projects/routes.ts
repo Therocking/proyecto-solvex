@@ -19,8 +19,13 @@ class ProjectsRoutes {
      const service = new ProjectsService(repository)
      const controller = new ProjectsController(service)
 
+     /*Middleware classes*/
      const authMiddleware = new AuthMiddleware()
      const dbValidators = new DbValidators()
+
+     routes.get("/:id", 
+	 authMiddleware.validUser
+     ,controller.GetOne)
 
      routes.get("/", 
 	 authMiddleware.validUser

@@ -1,13 +1,16 @@
 import PrismaDb from "../../../db/prismaClient";
-import { Participant, PostParticipant } from "../../../interfaces/participants.interface";
+import { GetParticipants, Participant, PostParticipant } from "../../../interfaces/participants.interface";
 import { ParticipantRepository } from "./participants.repository";
 
 
 export class PostgreParticipantRepository implements ParticipantRepository {
 
-   public async GetAllParticipants(projectId: string): Promise<Participant[]> {
+   public async GetAllParticipants(dataForGet: GetParticipants): Promise<Participant[]> {
        const participants = await PrismaDb.prisma.partitipant.findMany({
-	  where: {project_id: projectId}
+	  where: {project_id: dataForGet.project_id},
+	  skip: dataForGet.skip,
+	  take: dataForGet.limit,
+	  orderBy: {rol: "asc"}
        })
 
        return participants
@@ -15,7 +18,11 @@ export class PostgreParticipantRepository implements ParticipantRepository {
 
    public async AddParticipant(dataForPost: PostParticipant): Promise<Participant> {
        const participant = await PrismaDb.prisma.partitipant.create({
-	  data: dataForPost
+	  data: {
+	     rol: dataForPost.rol,
+	     user_id: dataForPost.user_id,
+	     project_id: dataForPost.project_id
+	  } 
        })
 
        return participant

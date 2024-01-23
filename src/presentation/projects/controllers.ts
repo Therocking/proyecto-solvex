@@ -8,11 +8,22 @@ export class ProjectsController {
       private readonly service: ProjectsService
    ) {}
 
-   public GetAll = (req: Request, res: Response) => {
-      const userId = req.body.user.id
-      console.log(req.body.user)
+   public GetOne = (req: Request, res: Response) => {
+      const projectId = req.params.project_id
 
-      this.service.GetAll(userId)
+      this.service.GetOne(projectId)
+	 .then(resp => res.json(resp))
+	 .catch(err => CustomHandleError.HandleError(err, res))
+   }
+
+   public GetAll = (req: Request, res: Response) => {
+      const {skip=0, limit=5} = req.query
+      const userId = req.body.user.id
+
+      const skipToNumber = Number(skip)
+      const limitToNumber = Number(limit)
+
+      this.service.GetAll({skip: skipToNumber, limit: limitToNumber, user_id: userId})
 	 .then(resp => res.json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }

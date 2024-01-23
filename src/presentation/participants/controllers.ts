@@ -9,9 +9,13 @@ export class ParticipantsController {
    ) {}
 
    public GetAll = (req: Request, res: Response) => {
-      const userId = req.params.id
+      const {skip=0, limit=5} = req.query
+      const projetId = req.params.project_id
 
-      this.service.GetAll(userId)
+      const skipToNum = Number(skip)
+      const limitToNum = Number(limit)
+
+      this.service.GetAll({skip: skipToNum, limit: limitToNum, project_id: projetId})
 	 .then(resp => res.json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }

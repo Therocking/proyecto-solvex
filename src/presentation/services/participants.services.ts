@@ -1,7 +1,7 @@
 import { DicErrors } from "../../errors/diccionaryErrors";
 import { CustomHttpErrors } from "../../helpers";
 import { ParticipantRepository } from "../../infracstructure/repositories";
-import { PostParticipant } from "../../interfaces";
+import { GetParticipants, PostParticipant } from "../../interfaces";
 
 
 export class ParticipantsService {
@@ -9,13 +9,21 @@ export class ParticipantsService {
       private readonly repository: ParticipantRepository
    ) {}
 
-   public async GetAll(userId: string) {
+   public async GetAll(dataForGet: GetParticipants) {
       try {
-	 const participants = await this.repository.GetAllParticipants(userId)
+	 const participants = await this.repository.GetAllParticipants(dataForGet)
 
-	 return participants
+	 const pagination = {
+	    skip: dataForGet.skip,
+	    limit: dataForGet.limit
+	 }
+
+	 return {
+	    pagination,
+	    participants
+	 }
       }catch(err) {
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
@@ -25,7 +33,7 @@ export class ParticipantsService {
 
 	 return participant
       }catch(err) {
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 
@@ -36,7 +44,7 @@ export class ParticipantsService {
 
 	 return participant
       }catch(err) {
-	 CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
    }
 }
