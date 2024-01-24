@@ -31,19 +31,27 @@ export class ProjectsService {
       try {
 	 const projects = await this.repository.GetAllProjects(dataForGet)
 
-	 // Add endpoint to creator user
-	 const projectsWithCreators = projects.map(p => {
-	    const {user_id, ...data} = p
+	 // Add endpoint to creator user and participants
+	 const projectsWithCreators = projects.map(project => {
+	    const {user_id, ...data} = project
 
-	    return {
+	    const resp = {
 	       ...data,
-	       creator: `/api/users/${p.user_id}`
+	       creator: `/api/users/${project.user_id}`,
+	       participants: `/api/participants/project/${project?.id}`
 	    }
+
+	    return resp
 	 })
+
+	 // Pagination
+	 const limitMenusOne = dataForGet.limit - 1
 
 	 const pagination = {
 	    skip: dataForGet.skip,
-	    limit: dataForGet.limit
+	    limit: dataForGet.limit,
+	    next: `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	    prev: (limitMenusOne < 1)? null : `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
 	 }
 
 	 return {

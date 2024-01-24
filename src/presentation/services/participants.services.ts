@@ -13,9 +13,14 @@ export class ParticipantsService {
       try {
 	 const participants = await this.repository.GetAllParticipants(dataForGet)
 
+	 // Pagination
+	 const limitMinusOne = dataForGet.limit - 1
+
 	 const pagination = {
 	    skip: dataForGet.skip,
-	    limit: dataForGet.limit
+	    limit: dataForGet.limit,
+	    next: `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	    prev: (limitMinusOne < 1)? null : `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
 	 }
 
 	 return {

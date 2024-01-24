@@ -30,9 +30,14 @@ export class UsersService {
 	    return data
 	 })
 
+	 // Pagination
+	 const limitMinusOne = dataForGet.limit - 1
+
 	 const pagination = {
 	    skip: dataForGet.skip,
-	    limit: dataForGet.limit
+	    limit: dataForGet.limit,
+	    next: `/api/users?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	    prev: (limitMinusOne < 1)? null : `/api/users?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
 	 }
 
 	 return { 
