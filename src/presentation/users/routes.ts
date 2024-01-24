@@ -23,17 +23,17 @@ class UsersRoutes {
      const authMiddleware = new AuthMiddleware()
      const dbValidators = new DbValidators()
 
-     routes.get("/:id",
-	 authMiddleware.validUser
-     ,controller.GetOne)
-
      routes.get("/",
+	 authMiddleware.validUser
+     ,controller.GetAll)
+
+     routes.get("/:id",
         authMiddleware.validUser,
 	check("id", DicErrors.MISSING_ID).notEmpty(),
 	check("id").custom(dbValidators.ExistUserById),
 	check("id").custom(ValidIfUserIsOwner.IsUserOwnerAccount),
 	ShowExpressValidatorErrors.validFields // Show the errors of check
-     ,controller.GetAll)
+     ,controller.GetOne)
 
      routes.put("/:id",[
 	authMiddleware.validUser,
