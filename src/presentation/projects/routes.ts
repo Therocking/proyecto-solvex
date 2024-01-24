@@ -24,7 +24,12 @@ class ProjectsRoutes {
      const dbValidators = new DbValidators()
 
      routes.get("/:id", 
-	 authMiddleware.validUser
+	authMiddleware.validUser,
+	check("id", DicErrors.MISSING_ID).notEmpty(),
+	check("id", DicErrors.ID_FORMAT_INCORRECT).isUUID(),
+	check("id").custom(dbValidators.ProjectExistById),
+	check("id").custom(ValidIfUserIsOwner.IsUserOwnerProject),
+	ShowExpressValidatorErrors.validFields// Show the errors of check
      ,controller.GetOne)
 
      routes.get("/", 
