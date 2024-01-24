@@ -7,7 +7,7 @@ interface Opts {
 }
 
 export class Server {
-   private readonly app = express()
+   public readonly app = express()
    private readonly port: number
    private readonly routes: Router
 
@@ -18,7 +18,7 @@ export class Server {
 
     public Start(): void {
       /*middlewares*/
-      this.Middleware()
+      this.Middlewares()
 
       /*routes*/      
       this.Routes()
@@ -27,7 +27,7 @@ export class Server {
       this.Listen()
    }
 
-   private Middleware(): void {
+   private Middlewares(): void {
       this.app.use( cors() )
       this.app.use( express.json() )
       this.app.use( this.routes )
