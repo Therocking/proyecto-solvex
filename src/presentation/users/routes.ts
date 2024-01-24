@@ -23,9 +23,13 @@ class UsersRoutes {
      const authMiddleware = new AuthMiddleware()
      const dbValidators = new DbValidators()
 
+     routes.get("/:id",
+	 authMiddleware.validUser
+     ,controller.GetOne)
+
      routes.get("/",
-	 //authMiddleware.validUser
-     controller.GetAll)
+	 authMiddleware.validUser
+     ,controller.GetAll)
 
      routes.put("/:id",[
 	authMiddleware.validUser,

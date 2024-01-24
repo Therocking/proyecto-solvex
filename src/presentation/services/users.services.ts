@@ -9,6 +9,17 @@ export class UsersService {
       private readonly repository: UserRepository
    ) {}
 
+   public async GetOne(userId: string) {
+      try {
+	 const user = await this.repository.GetUserById(userId)
+
+
+	 return user
+      }catch(err) {
+	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
+      }
+   }
+
    public async GetAll(dataForGet: GetUser) {
       try {
 	 const users = await this.repository.GetAllUsers(dataForGet)

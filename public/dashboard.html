@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+   <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+     Logout
+   </button>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+  <header class="bg-white shadow">
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Projects</h1>
+    </div>
+  </header>
+  <main>
+    <div id="content" class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+       <!-- Content -->
+    </div>
+  </main>
+</div>
+
+<script>
+   const content = document.querySelector("#content")
+   const btn = document.querySelector("button")
+
+   const token = localStorage.getItem("token")
+   if(!token) {
+      window.location.href = "/"
+   }
+
+   window.addEventListener("load", getProjects)
+   btn.addEventListener("click", () => {
+      localStorage.removeItem("token")
+      window.location.reload()
+   })
+
+   function getProjects() {
+      fetch("/api/projects", {
+	 headers: {
+	    "Content-Type": "application/json",
+	    "Authorization": token
+	 }
+      })
+	 .then(resp => resp.json())
+	 .then(data => {
+	    data.projects.map( async(project) => {
+	       const {creator, name, description} = project
+
+	       const user = await getCreator(creator)
+	       const desc = (description)? description : "Without description"
+	       insertProjects(name, user, desc)
+	    })
+	 })
+	 .catch(err => console.log(err))
+   }
+
+   async function getCreator(url) {
+
+      const resp = await fetch(url, {
+	 headers: {
+	    "Content-Type": "application/json",
+	    "Authorization": token
+	 }
+      })
+      const data = resp.json()
+      const user = await data
+
+      return user.name
+   }
+
+   function insertProjects(name, creator, desc) {
+
+      const div = document.createElement("div")
+      div.classList.add("mt-6", "space-y-12", "lg:grid", "lg:grid-cols-3", "lg:gap-x-6", "lg:space-y-0")
+
+      const divImg = document.createElement("div")
+      divImg.classList.add("group", "relative")
+
+      const img = document.createElement("img")
+      img.src = "https://tailwindui.com/img/ecommerce-images/home-page-02-edition-01.jpg"
+      img.classList.add("h-full", "w-full", "object-cover", "object-center")
+
+      const h3 = document.createElement("h3")
+      h3.textContent = `Author: ${creator}`
+      h3.classList.add("mt-6", "text-sm", "text-gray-500")
+
+      const h1 = document.createElement("h1")
+      h1.textContent = `Project name: ${name}`
+      h1.classList.add("mt-6", "text-sm", "text-gray-500")
+
+      const p = document.createElement("p")
+      p.textContent = `Descripton: ${desc}`
+      p.classList.add("text-base", "font-semibold", "text-gray-900")
+
+      divImg.appendChild(img)
+      div.appendChild(divImg)
+      div.appendChild(h3)
+      div.appendChild(h1)
+      div.appendChild(p)
+      content.appendChild(div)
+   }
+</script>
+</body>
+</html>

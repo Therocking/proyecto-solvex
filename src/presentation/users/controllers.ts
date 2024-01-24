@@ -8,6 +8,14 @@ export class UsersController {
       private readonly service: UsersService
    ) {}
 
+   public GetOne = (req: Request, res: Response) => {
+      const userId = req.params.user_id
+
+      this.service.GetOne(userId)
+	 .then(resp => res.json(resp))
+	 .catch(err => CustomHandleError.HandleError(err, res))
+   }
+
    public GetAll = (req: Request, res: Response) => {
       const {skip=0, limit=5} = req.query
 

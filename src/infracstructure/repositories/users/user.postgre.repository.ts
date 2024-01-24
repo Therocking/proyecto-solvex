@@ -25,7 +25,7 @@ export class PostgreUserRepository implements UserRepository {
        const users = await PrismaDb.prisma.user.findMany({
 	  skip: dataForGet.skip,
 	  take: dataForGet.limit,
-	  orderBy: {name: "asc"}
+	  orderBy: {name: "asc"},
        });
 
        return users
