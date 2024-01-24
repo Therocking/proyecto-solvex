@@ -12,18 +12,18 @@ export class AuthMiddleware {
       try{
 	 const auth = req.header('Authorization');
 	 if(!auth) return res.status(401).json({ error: DicErrors.MISSING_TOKEN})
-	 if(!auth.startsWith('Bearer ')) return res.status(401).json({error:DicErrors.INVALID_TOKEN})
+	 if(!auth.startsWith('Bearer ')) return res.status(401).json({msg:DicErrors.INVALID_TOKEN})
 
 	 // Split the string with the token and take the second position
 	 const token = auth.split(' ').at(1) || '';
 	 
 	 // Get the payload in the token
 	 const payload = await this.GetPayload(token)
-	 if(!payload) return res.status(401).json({error: DicErrors.INVALID_TOKEN})
+	 if(!payload) return res.status(401).json({msg: DicErrors.INVALID_TOKEN})
 
 	 // Get the user with the id in the payload
 	 const user = await this.GetUser(payload.id)
-	 if(!user) return res.status(404).json({error: DicErrors.USER_NOT_FOUND});
+	 if(!user) return res.status(404).json({msg: DicErrors.INVALID_TOKEN});
 
 	 req.body.user = user;
 
