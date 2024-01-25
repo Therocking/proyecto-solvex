@@ -17,13 +17,12 @@ export class UsersController {
    }
 
    public GetAll = (req: Request, res: Response) => {
-      const {skip=0, limit=5, name} = req.query
+      const {skip=0, limit=5} = req.query
 
       const skipToNumber = Number(skip)
-      const nameToString = String(name)
       const limitToNumber = Number(limit)
 
-      this.service.GetAll({skip: skipToNumber, limit: limitToNumber, name: nameToString})
+      this.service.GetAll({skip: skipToNumber, limit: limitToNumber})
 	 .then(resp => res.json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }
