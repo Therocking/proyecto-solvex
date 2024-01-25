@@ -8,7 +8,9 @@ import { DicErrors } from "../../errors/diccionaryErrors";
 import { ShowExpressValidatorErrors } from "../middlewares/showErrors.middleware";
 import { DbValidators } from "../../helpers/dbValidators.helper";
 import { ValidIfUserIsOwner } from "../middlewares/userOwner.middleware";
+import { ApiCache } from "../../adapters";
 
+const c = () => console.log(ApiCache.Cache.getIndex())
 
 class UsersRoutes {
 
@@ -24,13 +26,15 @@ class UsersRoutes {
      const dbValidators = new DbValidators()
 
      routes.get("/",
-	 authMiddleware.validUser
+	 authMiddleware.validUser,
+	 ApiCache.Cache.middleware("2 minutes")
      ,controller.GetAll)
 
      routes.get("/:id",
         authMiddleware.validUser,
 	check("id", DicErrors.MISSING_ID).notEmpty(),
 	check("id").custom(dbValidators.ExistUserById),
+        ApiCache.Cache.middleware("2 minutes"),
 	ShowExpressValidatorErrors.validFields // Show the errors of check
      ,controller.GetOne)
 
@@ -42,6 +46,7 @@ class UsersRoutes {
 	ShowExpressValidatorErrors.validFields // Show the errors of check
      ],controller.Update)
 
+     
      routes.delete("/:id",[
 	authMiddleware.validUser,
 	check("id", DicErrors.MISSING_ID).notEmpty(),

@@ -3,6 +3,7 @@ import { CustomHttpErrors } from "../../helpers/customHttpErrors.helper";
 import { UserRepository } from "../../infracstructure/repositories/users/user.repository";
 import { GetUser, PutUser } from "../../interfaces/users.interface";
 import { DicErrors } from "../../errors/diccionaryErrors";
+import { ApiCache } from "../../adapters";
 
 export class UsersService {
    constructor(
@@ -60,6 +61,8 @@ export class UsersService {
    } 
 
    public async Update(dataForUpdate: PutUser) {
+      ApiCache.Cache.clear("/api/users/") /*Clear the cache on users routes*/
+      ApiCache.Cache.clear(`/api/users/${dataForUpdate.id}`) /*Clear the cache on users routes*/
       try {
 	 if(dataForUpdate.password) {
 	    dataForUpdate.password = BcryptAdapter.hash(dataForUpdate.password)
@@ -75,6 +78,8 @@ export class UsersService {
    }
 
    public async Delete(id: string) {
+      ApiCache.Cache.clear("/api/users/") /*Clear the cache on users routes*/
+      ApiCache.Cache.clear(`/api/users/${id}`) /*Clear the cache on users routes*/
       try {
 	 const user = await this.repository.DeleteUser(id)
 

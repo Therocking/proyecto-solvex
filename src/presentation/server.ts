@@ -8,7 +8,7 @@ interface Opts {
 
 export class Server {
    public readonly app = express()
-   public listenServer: any
+   public listenServer: any /*To close the server in the tests*/
    private readonly port: number
    private readonly routes: Router
 
@@ -35,11 +35,11 @@ export class Server {
    }
 
    private Routes(): void {
-      this.app.get( "/", (_req, res) => {
+      this.app.get( "/", (_req, res) => { // Shows a login page
 	 res.sendFile(process.cwd() + "/public/index.html")
       })
 
-      this.app.get( "/dashboard", (_req, res) => {
+      this.app.get( "/dashboard", (_req, res) => { // Shows a project page
 	 res.sendFile(process.cwd() + "/public/dashboard.html")
       })
 
