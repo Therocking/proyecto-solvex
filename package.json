@@ -8,8 +8,8 @@
     "build": "tsc && pnpm run prisma:deploy",
     "start": "pnpm run test && pnpm run build && node dist/app.js",
     "prisma:deploy": "prisma migrate deploy",
-    "test:dev": "tsx --test --watch test/*/*/*.test.ts",
-    "test": "tsx --test ./test/**/**/*.test.ts"
+    "test:dev": "tsx --test --watch test/**/**/*.test.ts",
+    "test": "./runTests.sh"
   },
   "keywords": [],
   "author": "",
