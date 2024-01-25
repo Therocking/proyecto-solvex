@@ -5,6 +5,12 @@ import { UserRepository } from "./user.repository";
 
 export class PostgreUserRepository implements UserRepository {
 
+   public async GetDocuments(): Promise<number> {
+      const total = await PrismaDb.prisma.user.count()
+      
+      return total
+   }
+
    public async GetUserById(id: string): Promise<User | null> {
        const user = await PrismaDb.prisma.user.findFirst({
 	  where: {id}
@@ -23,9 +29,13 @@ export class PostgreUserRepository implements UserRepository {
 
    public async GetAllUsers(dataForGet: GetUser): Promise<User[]> {
        const users = await PrismaDb.prisma.user.findMany({
-	  skip: dataForGet.skip,
-	  take: dataForGet.limit,
-	  orderBy: {name: "asc"},
+	  skip: dataForGet.skip, /*To skip a certien number of results*/
+	  take: dataForGet.limit, /*To limit a certien number of results*/
+	  where: {name: { /*To filter by name*/
+	     contains: dataForGet.name
+	    }
+	  },
+	  orderBy: {name: "asc"}, /*To order by name ascendant*/
        });
 
        return users

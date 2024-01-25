@@ -17,13 +17,14 @@ export class ProjectsController {
    }
 
    public GetAll = (req: Request, res: Response) => {
-      const {skip=0, limit=5} = req.query
+      const {skip=0, limit=5, name} = req.query
       const userId = req.body.user.id
 
       const skipToNumber = Number(skip)
+      const nameToString = String(name)
       const limitToNumber = Number(limit)
 
-      this.service.GetAll({skip: skipToNumber, limit: limitToNumber, user_id: userId})
+      this.service.GetAll({skip: skipToNumber, limit: limitToNumber, user_id: userId, name: nameToString})
 	 .then(resp => res.json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }

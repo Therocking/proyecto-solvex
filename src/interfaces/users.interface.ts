@@ -7,6 +7,7 @@ export interface User {
 }
 
 export interface GetUser {
+   name: string,
    skip: number,
    limit: number
 }

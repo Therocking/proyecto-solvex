@@ -8,6 +8,7 @@ export interface Participant {
 
 export interface GetParticipants {
    project_id: string,
+   name: string,
    skip: number,
    limit: number
 }

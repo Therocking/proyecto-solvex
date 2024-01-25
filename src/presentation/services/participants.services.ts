@@ -9,19 +9,29 @@ export class ParticipantsService {
       private readonly repository: ParticipantRepository
    ) {}
 
-   public async GetAll(dataForGet: GetParticipants) {
-      try {
-	 const participants = await this.repository.GetAllParticipants(dataForGet)
+   private GetPagination(total: number, dataForGet: GetParticipants) {
+      const limitMinusOne = dataForGet.limit - 1
 
-	 // Pagination
-	 const limitMinusOne = dataForGet.limit - 1
-
-	 const pagination = {
+      const pagination = {
+	    total,
 	    skip: dataForGet.skip,
 	    limit: dataForGet.limit,
 	    next: `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
 	    prev: (limitMinusOne < 1)? null : `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
-	 }
+      }
+
+      return pagination
+   }
+
+   public async GetAll(dataForGet: GetParticipants) {
+      try {
+	 const [participants, total] = await Promise.all([
+	    this.repository.GetAllParticipants(dataForGet),
+	    this.repository.GetDocuments()
+	 ])
+
+	 // Pagination
+	 const pagination = this.GetPagination(total, dataForGet)
 
 	 return {
 	    pagination,

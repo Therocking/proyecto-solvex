@@ -9,6 +9,20 @@ export class UsersService {
       private readonly repository: UserRepository
    ) {}
 
+   private GetPagination(total: number, dataForGet: GetUser) {
+	 const limitMinusOne = dataForGet.limit - 1
+
+	 const pagination = {
+	    total,
+	    skip: dataForGet.skip,
+	    limit: dataForGet.limit,
+	    next: `/api/users?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	    prev: (limitMinusOne < 1)? null : `/api/users?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	 }
+
+	 return pagination
+   }
+
    public async GetOne(userId: string) {
       try {
 	 const user = await this.repository.GetUserById(userId)
@@ -22,7 +36,10 @@ export class UsersService {
 
    public async GetAll(dataForGet: GetUser) {
       try {
-	 const users = await this.repository.GetAllUsers(dataForGet)
+	 const [users, total] = await Promise.all([
+	    this.repository.GetAllUsers(dataForGet),
+	    this.repository.GetDocuments()
+	 ])
 
 	 const usersWithOutPass = users.map(user => {
 	    const {password, ...data} = user
@@ -31,14 +48,7 @@ export class UsersService {
 	 })
 
 	 // Pagination
-	 const limitMinusOne = dataForGet.limit - 1
-
-	 const pagination = {
-	    skip: dataForGet.skip,
-	    limit: dataForGet.limit,
-	    next: `/api/users?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
-	    prev: (limitMinusOne < 1)? null : `/api/users?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
-	 }
+	 const pagination = this.GetPagination(total, dataForGet)
 
 	 return { 
 	    pagination,

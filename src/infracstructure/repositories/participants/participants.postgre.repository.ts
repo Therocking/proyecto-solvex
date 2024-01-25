@@ -5,12 +5,23 @@ import { ParticipantRepository } from "./participants.repository";
 
 export class PostgreParticipantRepository implements ParticipantRepository {
 
+   public async GetDocuments(): Promise<number> {
+       const total = await PrismaDb.prisma.partitipant.count()
+
+       return total
+   }
+
    public async GetAllParticipants(dataForGet: GetParticipants): Promise<Participant[]> {
        const participants = await PrismaDb.prisma.partitipant.findMany({
-	  where: {project_id: dataForGet.project_id},
-	  skip: dataForGet.skip,
-	  take: dataForGet.limit,
-	  orderBy: {rol: "asc"}
+	  where: { /*To filter by project_id and the name of project*/
+	     project_id: dataForGet.project_id,
+	     rol: {
+		contains: dataForGet.name
+	     } 
+	  },
+	  skip: dataForGet.skip, /*To skip a certein number of results*/
+	  take: dataForGet.limit, /*To limit a certein number of results*/
+	  orderBy: {rol: "asc"} /*To order by rol ascendant*/
        })
 
        return participants

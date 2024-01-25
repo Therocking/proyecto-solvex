@@ -9,6 +9,20 @@ export class ProjectsService {
       private readonly repository: PostgreProjectRepository
    ){}
 
+   private GetPagination(total: number, dataForGet: GetProject) {
+	 const limitMenusOne = dataForGet.limit - 1
+
+	 const pagination = {
+	    total,
+	    skip: dataForGet.skip,
+	    limit: dataForGet.limit,
+	    next: `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	    prev: (limitMenusOne < 1)? null : `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	 }
+
+	 return pagination
+   }
+
    public async GetOne(id: string) {
       try {
 	 const project = await this.repository.GetProjectById(id)
@@ -29,7 +43,10 @@ export class ProjectsService {
 
    public async GetAll(dataForGet: GetProject) {
       try {
-	 const projects = await this.repository.GetAllProjects(dataForGet)
+	 const [projects, total] = await Promise.all([
+	    this.repository.GetAllProjects(dataForGet),
+	    this.repository.GetDocuments()
+	 ])
 
 	 // Add endpoint to creator user and participants
 	 const projectsWithCreators = projects.map(project => {
@@ -45,14 +62,7 @@ export class ProjectsService {
 	 })
 
 	 // Pagination
-	 const limitMenusOne = dataForGet.limit - 1
-
-	 const pagination = {
-	    skip: dataForGet.skip,
-	    limit: dataForGet.limit,
-	    next: `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
-	    prev: (limitMenusOne < 1)? null : `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
-	 }
+	 const pagination = this.GetPagination(total, dataForGet)
 
 	 return {
 	    pagination,

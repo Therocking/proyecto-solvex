@@ -2,6 +2,7 @@ import { GetUser, PostUser, PutUser, User } from "../../../interfaces/users.inte
 
 
 export abstract class UserRepository {
+   public abstract GetDocuments(): Promise<number>
    public abstract GetUserById(id: string): Promise<User | null>
    public abstract GetUserByMail(mail: string): Promise<User | null>
    public abstract GetAllUsers(dataForGet: GetUser): Promise<User[]>
