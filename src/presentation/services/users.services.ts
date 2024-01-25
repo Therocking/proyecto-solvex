@@ -11,14 +11,13 @@ export class UsersService {
 
    private GetPagination(total: number, dataForGet: GetUser) {
 	 const skipMinusLimit = dataForGet.skip - dataForGet.limit
-	 const skipPlusLimit = dataForGet.skip + dataForGet.limit
 
 	 const pagination = {
 	    total,
 	    skip: dataForGet.skip,
 	    limit: dataForGet.limit,
-	    next: `/api/users?skip=${skipPlusLimit}&limit=${dataForGet.limit}`,
-	    prev: (skipMinusLimit < 1)? null : `/api/users?skip=${skipMinusLimit}&limit=${dataForGet.limit}`,
+	    next: `/api/users?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
+	    prev: (skipMinusLimit < 0)? null : `/api/users?skip=${skipMinusLimit}&limit=${dataForGet.limit}`,
 	 }
 
 	 return pagination
