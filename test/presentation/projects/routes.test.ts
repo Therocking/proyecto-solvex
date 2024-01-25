@@ -1,4 +1,4 @@
-import test, { before, describe } from "node:test";
+import test, { after, before, describe } from "node:test";
 import { testServer } from "../../testServer";
 import request from "supertest";
 import PrismaDb from "../../../src/db/prismaClient";
@@ -16,6 +16,10 @@ describe("Tests projects routes", () => {
 	 await PrismaDb.prisma.project.deleteMany(),
 	 await PrismaDb.prisma.user.deleteMany()
       ])
+   })
+
+   after(() => {
+      testServer.listenServer.close()
    })
 
    // Arrange

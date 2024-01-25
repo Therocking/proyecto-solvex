@@ -1,5 +1,4 @@
-import test, { before, describe } from "node:test";
-import { match } from "node:assert";
+import test, { after, before, describe } from "node:test";
 import request from "supertest";
 import {testServer} from "../../testServer"
 import { PostgreUserRepository } from "../../../src/infracstructure/repositories";
@@ -14,6 +13,10 @@ describe("Tests users routes", () => {
       testServer.Start()
 
       await PrismaDb.prisma.user.deleteMany()
+   })
+
+   after(() => {
+      testServer.listenServer.close()
    })
 
    // Arrange

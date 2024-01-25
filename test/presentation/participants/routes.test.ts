@@ -1,4 +1,4 @@
-import test, { before, describe } from "node:test";
+import test, { after, before, describe } from "node:test";
 import request from "supertest";
 import {testServer} from "../../testServer";
 import { JwtAdapter } from "../../../src/adapters/jwt.adapter";
@@ -13,6 +13,11 @@ describe("Test participants routes", () => {
       testServer.Start()
 
       await PrismaDb.prisma.user.deleteMany()
+   })
+
+   after(() => {
+      // End the server
+      testServer.listenServer.close()
    })
 
    // User

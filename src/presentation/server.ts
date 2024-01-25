@@ -8,6 +8,7 @@ interface Opts {
 
 export class Server {
    public readonly app = express()
+   public listenServer: any
    private readonly port: number
    private readonly routes: Router
 
@@ -49,7 +50,7 @@ export class Server {
    }
 
    private Listen(): void {
-      this.app.listen(this.port, () => {
+      this.listenServer = this.app.listen(this.port, () => {
 	 console.log("Server ready at:", this.port)
       })
    }

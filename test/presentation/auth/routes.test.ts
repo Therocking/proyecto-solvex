@@ -11,7 +11,9 @@ describe("Test auth routes", () => {
       await PrismaDb.prisma.user.deleteMany()
    })
 
-   after(() => console.log("All tests completed"))
+   after(() => {
+      testServer.listenServer.close()
+   })
 
    // Arrange
    const userToInsert = {
