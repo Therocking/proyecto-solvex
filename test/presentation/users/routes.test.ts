@@ -73,7 +73,5 @@ describe("Tests users routes", () => {
 	 .set("Authorization", `Bearer ${resp.token}`)
 	 .expect(200)
    })
-
-      testServer.listenServer.close()
 })
 
