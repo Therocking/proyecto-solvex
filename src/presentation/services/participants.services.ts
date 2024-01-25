@@ -10,14 +10,14 @@ export class ParticipantsService {
    ) {}
 
    private GetPagination(total: number, dataForGet: GetParticipants) {
-      const limitMinusOne = dataForGet.limit - 1
+      const skipMinusOne = dataForGet.skip - 1
 
       const pagination = {
 	    total,
 	    skip: dataForGet.skip,
 	    limit: dataForGet.limit,
-	    next: `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
-	    prev: (limitMinusOne < 1)? null : `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	    next: `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
+	    prev: (skipMinusOne < 1)? null : `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
       }
 
       return pagination

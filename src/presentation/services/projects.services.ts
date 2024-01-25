@@ -10,14 +10,14 @@ export class ProjectsService {
    ){}
 
    private GetPagination(total: number, dataForGet: GetProject) {
-	 const limitMenusOne = dataForGet.limit - 1
+	 const skipMenusOne = dataForGet.skip - 1
 
 	 const pagination = {
 	    total,
 	    skip: dataForGet.skip,
 	    limit: dataForGet.limit,
-	    next: `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
-	    prev: (limitMenusOne < 1)? null : `/api/project?skip=${dataForGet.skip}&limit=${dataForGet.limit + 1}`,
+	    next: `/api/project?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
+	    prev: (skipMenusOne < 1)? null : `/api/project?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
 	 }
 
 	 return pagination
