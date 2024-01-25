@@ -14,10 +14,7 @@ export class PostgreParticipantRepository implements ParticipantRepository {
    public async GetAllParticipants(dataForGet: GetParticipants): Promise<Participant[]> {
        const participants = await PrismaDb.prisma.partitipant.findMany({
 	  where: { /*To filter by project_id and the name of project*/
-	     project_id: dataForGet.project_id,
-	     rol: {
-		contains: dataForGet.name
-	     } 
+	     project_id: dataForGet.project_id
 	  },
 	  skip: dataForGet.skip, /*To skip a certein number of results*/
 	  take: dataForGet.limit, /*To limit a certein number of results*/

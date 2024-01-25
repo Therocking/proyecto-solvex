@@ -10,7 +10,6 @@ export interface Project {
 
 export interface GetProject {
    user_id: string,
-   name: string,
    skip: number,
    limit: number
 }

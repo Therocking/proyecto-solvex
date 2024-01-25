@@ -23,10 +23,7 @@ export class PostgreProjectRepository implements ProjectRepository {
       // TODO: Paginacion
       const projects = await PrismaDb.prisma.project.findMany({
 	 where: { /*To filter by user_id and name of the project*/
-	    user_id: dataForGet.user_id,
-	    name: {
-	       contains: dataForGet.name
-	    }
+	    user_id: dataForGet.user_id
 	 }, 
 	 skip: dataForGet.skip, /*To skip a certien number of results*/
 	 take: dataForGet.limit, /*To limit a certein number of results*/
