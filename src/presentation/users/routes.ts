@@ -31,7 +31,6 @@ class UsersRoutes {
         authMiddleware.validUser,
 	check("id", DicErrors.MISSING_ID).notEmpty(),
 	check("id").custom(dbValidators.ExistUserById),
-	check("id").custom(ValidIfUserIsOwner.IsUserOwnerAccount),
 	ShowExpressValidatorErrors.validFields // Show the errors of check
      ,controller.GetOne)
 

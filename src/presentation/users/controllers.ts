@@ -9,7 +9,7 @@ export class UsersController {
    ) {}
 
    public GetOne = (req: Request, res: Response) => {
-      const userId = req.params.user_id
+      const userId = req.params.id
 
       this.service.GetOne(userId)
 	 .then(resp => res.json(resp))

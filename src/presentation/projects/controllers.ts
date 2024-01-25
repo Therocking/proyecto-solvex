@@ -9,7 +9,7 @@ export class ProjectsController {
    ) {}
 
    public GetOne = (req: Request, res: Response) => {
-      const projectId = req.params.project_id
+      const projectId = req.params.id
 
       this.service.GetOne(projectId)
 	 .then(resp => res.json(resp))
