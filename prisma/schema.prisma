@@ -35,7 +35,7 @@ model Project {
 model Partitipant {
    id String @id @default(uuid())
    rol String @db.VarChar(50)
-   project_id String @unique //FK
+   project_id String //FK
    user_id String @unique //FK
    user User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade) // Relation 1-n
    project Project @relation(fields: [project_id], references: [id], onDelete: Cascade, onUpdate: Cascade) // Relation 1-n

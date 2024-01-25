@@ -7,6 +7,7 @@ import { check } from "express-validator";
 import { DicErrors } from "../../errors/diccionaryErrors";
 import { ShowExpressValidatorErrors } from "../middlewares/showErrors.middleware";
 import { DbValidators } from "../../helpers/dbValidators.helper";
+import { ExistIn } from "../middlewares/existIn.middleware";
 
 
 
@@ -38,6 +39,7 @@ export class ParticipatsRoutes {
 	 check("user_id", DicErrors.MISSING_ID).notEmpty(),
 	 check("user_id", DicErrors.ID_FORMAT_INCORRECT).isUUID(),
 	 check("user_id").custom(dbValidators.ExistUserById),
+	 ExistIn.ExistUserInTheProject,// Check if the user is participant
 	 check("rol", DicErrors.MISSING_ROL).notEmpty().isString(),
 	 ShowExpressValidatorErrors.validFields// Show the errors of check
 
@@ -45,14 +47,14 @@ export class ParticipatsRoutes {
 
       routes.delete("/project/:project_id/user/:user_id",[
 	 authMiddleware.validUser,
-	 check("project_id", DicErrors.MISSING_ID).notEmpty(),
-	 check("project_id", DicErrors.ID_FORMAT_INCORRECT).isUUID(),
-	 check("project_id").custom(dbValidators.ProjectExistById),
-	 check("user_id", DicErrors.MISSING_ID).notEmpty(),
-	 check("user_id", DicErrors.ID_FORMAT_INCORRECT).isUUID(),
-	 check("user_id").custom(dbValidators.ExistUserById),
+	 check("project_id", DicErrors.MISSING_ID).notEmpty(), // Search for id
+	 check("project_id", DicErrors.ID_FORMAT_INCORRECT).isUUID(), // Check the format of the id
+	 check("project_id").custom(dbValidators.ProjectExistById), // Check if the project exist
+	 check("user_id", DicErrors.MISSING_ID).notEmpty(),// Search for id
+	 check("user_id", DicErrors.ID_FORMAT_INCORRECT).isUUID(),// Check the format of the id
+	 check("user_id").custom(dbValidators.ExistUserById), // Check if the user exist
+	 ExistIn.ExistUserInProjectToRemoveIt, // Check if the user is participant to remove it
 	 ShowExpressValidatorErrors.validFields// Show the errors of check
-
       ],controller.Delete)
 
       return routes

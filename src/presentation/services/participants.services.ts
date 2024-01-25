@@ -55,6 +55,7 @@ export class ParticipantsService {
    public async Delete(userId: string, projectId: string) {
       try {
 	 const participant = await this.repository.DeleteParticipant(userId, projectId) 
+	 // If not exist throw a 404 http error
 	 if(!participant) return CustomHttpErrors.NotFound(DicErrors.PARTICIPANT_NOT_FOUND)
 
 	 return participant

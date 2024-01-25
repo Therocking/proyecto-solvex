@@ -11,6 +11,14 @@ export class PostgreParticipantRepository implements ParticipantRepository {
        return total
    }
 
+   public async GetParticipantById(id: string): Promise<Participant | null> {
+      const participant = await PrismaDb.prisma.partitipant.findFirst({
+	 where: {user_id: id}
+      })
+
+      return participant
+   }
+
    public async GetAllParticipants(dataForGet: GetParticipants): Promise<Participant[]> {
        const participants = await PrismaDb.prisma.partitipant.findMany({
 	  where: { /*To filter by project_id and the name of project*/

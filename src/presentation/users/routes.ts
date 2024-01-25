@@ -10,8 +10,6 @@ import { DbValidators } from "../../helpers/dbValidators.helper";
 import { ValidIfUserIsOwner } from "../middlewares/userOwner.middleware";
 import { ApiCache } from "../../adapters";
 
-const c = () => console.log(ApiCache.Cache.getIndex())
-
 class UsersRoutes {
 
   public static get Routes(): Router {
@@ -27,14 +25,14 @@ class UsersRoutes {
 
      routes.get("/",
 	 authMiddleware.validUser,
-	 ApiCache.Cache.middleware("2 minutes")
+	 ApiCache.Cache.middleware("2 minutes") // Save in cache the get all route
      ,controller.GetAll)
 
      routes.get("/:id",
         authMiddleware.validUser,
 	check("id", DicErrors.MISSING_ID).notEmpty(),
 	check("id").custom(dbValidators.ExistUserById),
-        ApiCache.Cache.middleware("2 minutes"),
+        ApiCache.Cache.middleware("2 minutes"), // Save in cache the get by id route
 	ShowExpressValidatorErrors.validFields // Show the errors of check
      ,controller.GetOne)
 

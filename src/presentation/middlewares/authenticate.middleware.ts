@@ -10,6 +10,7 @@ export class AuthMiddleware {
 
    public validUser = async(req: Request, res: Response, next: NextFunction) => {
       try{
+	 // Search for Authorization in headers
 	 const auth = req.header('Authorization');
 	 if(!auth) return res.status(401).json({ error: DicErrors.MISSING_TOKEN})
 	 if(!auth.startsWith('Bearer ')) return res.status(401).json({msg:DicErrors.INVALID_TOKEN})
@@ -43,7 +44,7 @@ export class AuthMiddleware {
 
    private async GetPayload(token: string): Promise<{id: string} | null> {
       const jwtAdapter = new JwtAdapter(envs.JWTSEED)
-      const payload = await jwtAdapter.Verify<{id: string}>(token)
+      const payload = await jwtAdapter.Verify<{id: string}>(token) // Check if the token is valid
       return payload
    }
 } 

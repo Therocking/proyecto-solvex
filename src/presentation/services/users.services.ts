@@ -11,14 +11,14 @@ export class UsersService {
    ) {}
 
    private GetPagination(total: number, dataForGet: GetUser) {
-	 const skipMinusLimit = dataForGet.skip - dataForGet.limit
+	 const skipMinuOne = dataForGet.skip - 1
 
 	 const pagination = {
 	    total,
 	    skip: dataForGet.skip,
 	    limit: dataForGet.limit,
 	    next: `/api/users?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
-	    prev: (skipMinusLimit < 0)? null : `/api/users?skip=${skipMinusLimit}&limit=${dataForGet.limit}`,
+	    prev: (skipMinuOne < 0)? null : `/api/users?skip=${skipMinuOne}&limit=${dataForGet.limit}`,
 	 }
 
 	 return pagination
@@ -62,7 +62,7 @@ export class UsersService {
 
    public async Update(dataForUpdate: PutUser) {
       ApiCache.Cache.clear("/api/users/") /*Clear the cache on users routes*/
-      ApiCache.Cache.clear(`/api/users/${dataForUpdate.id}`) /*Clear the cache on users routes*/
+      ApiCache.Cache.clear(`/api/users/${dataForUpdate.id}`) /*Clear the cache on user by id routes*/
       try {
 	 if(dataForUpdate.password) {
 	    dataForUpdate.password = BcryptAdapter.hash(dataForUpdate.password)
@@ -79,7 +79,7 @@ export class UsersService {
 
    public async Delete(id: string) {
       ApiCache.Cache.clear("/api/users/") /*Clear the cache on users routes*/
-      ApiCache.Cache.clear(`/api/users/${id}`) /*Clear the cache on users routes*/
+      ApiCache.Cache.clear(`/api/users/${id}`) /*Clear the cache on user by id routes*/
       try {
 	 const user = await this.repository.DeleteUser(id)
 

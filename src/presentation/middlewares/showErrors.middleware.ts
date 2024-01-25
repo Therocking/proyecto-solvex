@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 
 export class ShowExpressValidatorErrors {
    
+   // To show errors on routes with the midd check
    public static validFields = (req: Request, res: Response, next: NextFunction) => {
       const errors = validationResult(req);
       
