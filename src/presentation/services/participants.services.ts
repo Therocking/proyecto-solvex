@@ -17,7 +17,7 @@ export class ParticipantsService {
 	    skip: dataForGet.skip,
 	    limit: dataForGet.limit,
 	    next: `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
-	    prev: (skipMinusOne < 1)? null : `/api/participants/${dataForGet.project_id}?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
+	    prev: (skipMinusOne < 1)? null : `/api/participants/${dataForGet.project_id}?skip=${skipMinusOne}&limit=${dataForGet.limit}`,
       }
 
       return pagination

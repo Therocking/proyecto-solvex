@@ -17,7 +17,7 @@ export class ProjectsService {
 	    skip: dataForGet.skip,
 	    limit: dataForGet.limit,
 	    next: `/api/project?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
-	    prev: (skipMenusOne < 1)? null : `/api/project?skip=${dataForGet.skip + 1}&limit=${dataForGet.limit}`,
+	    prev: (skipMenusOne < 1)? null : `/api/project?skip=${skipMenusOne}&limit=${dataForGet.limit}`,
 	 }
 
 	 return pagination
