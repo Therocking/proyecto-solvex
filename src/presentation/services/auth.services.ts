@@ -34,7 +34,7 @@ export class AuthService{
       try {
 	 const user = await this.repository.GetUserByMail(mail)
 	 // If no exist throw a 404 http error
-	 if(user) throw CustomHttpErrors.NotFound(DicErrors.USER_NOT_FOUND)
+	 if(!user) throw CustomHttpErrors.NotFound(DicErrors.USER_NOT_FOUND)
 
 	 // Verify if the hashed pass and the pass in args are the same
 	 const isCorrectPass = BcryptAdapter.compare(password, user!.password)
@@ -47,6 +47,7 @@ export class AuthService{
 	    token
 	 }
       }catch(err) {
+	 console.log(err)
 	 if(err instanceof CustomHttpErrors) throw err
 	 throw CustomHttpErrors.InternalError(DicErrors.INTERNAL_SERVER_ERROR)
       }
