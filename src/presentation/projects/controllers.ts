@@ -29,7 +29,10 @@ export class ProjectsController {
    }
 
    public Create = (req: Request, res: Response) => {
-      this.service.Create(req.body)
+      const name = req.body.name
+      const userId = req.body.user.id
+
+      this.service.Create({name, user_id: userId})
 	 .then(resp => res.status(201).json(resp))
 	 .catch(err => CustomHandleError.HandleError(err, res))
    }

@@ -38,10 +38,8 @@ class ProjectsRoutes {
 
      routes.post("/",[
 	authMiddleware.validUser,
-	check("name", DicErrors.MISSING_NAME).isString(),
-	check("user_id", DicErrors.MISSING_ID).notEmpty(),
-	check("user_id", DicErrors.ID_FORMAT_INCORRECT).isUUID(),
-	check("user_id").custom(dbValidators.ExistUserById),
+	check("name", DicErrors.NAME_MUST_BE_STRING).isString(),
+	check("name", DicErrors.MISSING_NAME).notEmpty(),
 	ShowExpressValidatorErrors.validFields// Show the errors of check
 
      ],controller.Create)
