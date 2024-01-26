@@ -44,6 +44,9 @@ Los errores HTTPs se manejan en los controladores luego de ser llamados por algu
 
 La API utiliza un paquete de npm `apicache` para implementar un pequeno sistema de cacheo. Este se utiliza sólo en las ruta `users`
 
+### Estructura de los datos en la db.
+[Archivo .sql](https://github.com/Therocking/proyecto-solvex/blob/main/prisma/migrations/20240120152346_init/migration.sql)
+
 ### Test
 El test está echo para las rutas de forma nátiva en node
 
