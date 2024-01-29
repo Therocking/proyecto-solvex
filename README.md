@@ -3,6 +3,10 @@
 
 ```Version de node: 20.11.0```
 
+## Tecnologías
+
+**Server:** TypeScript, Node, Express, PostgreSQL, prisma
+
 ## Características
 
 ### Proyectos
@@ -29,8 +33,13 @@
     }
 ```
 ### Registro de Usuarios (Autenticación, Autorización)
- 
-Para la autenticación, autorización, se utilizan jsonwebtokens(jwt). la autenticación se realiza en las rutas `/auth` y la autorización es realizada por el middleware `authenticate.middleware.ts`
+**Las implentaciones de autorización se encuentran en las carpetas `auth`**
+
+#### Json Web Token
+Para la autenticación, autorización, se utilizan jsonwebtokens(jwt). la autenticación se realiza en las rutas `/auth` y la autorización es realizada por el middleware `authenticate.middleware.ts`.
+
+#### OAuth
+La API utiliza el OAuth de google en la ruta `/auth/google`.
 
 ### Manejo de Errores y Excepciones
 
@@ -42,13 +51,13 @@ Los errores HTTPs se manejan en los controladores luego de ser llamados por algu
 
 ### Sistema de cacheo
 
-La API utiliza un paquete de npm `apicache` para implementar un pequeno sistema de cacheo. Este se utiliza sólo en las ruta `users`
+La API utiliza un paquete de npm `apicache` para implementar un pequeno sistema de cacheo. Este se utiliza sólo en las ruta `users`.
 
 ### Estructura de los datos en la db.
 [Archivo .sql](https://github.com/Therocking/proyecto-solvex/blob/main/prisma/migrations/20240120152346_init/migration.sql)
 
 ### Test
-El test está echo para las rutas de forma nátiva en node
+El test está echo para las rutas de forma nátiva en node.
 
 #### Ejecutar Tests
 
@@ -309,6 +318,4 @@ curl -H "Content-Type: application/json" -H "Authorization: Bearer {{token}}" -X
 curl -H "Content-Type: application/json" -H "Authorization: Bearer {{token}}" -X DELETE {{url}}/api/participants/project/{{project_id}/user/{{user_id}}
 ```
 
-## Tech
 
-**Server:** TypeScript, Node, Express, PostgreSQL, prisma
