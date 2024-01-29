@@ -10,8 +10,6 @@
      Logout
    </button>
 
-    <!-- Mobile menu, show/hide based on menu state. -->
-
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
   <header class="bg-white shadow">
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -25,6 +23,7 @@
   </main>
 </div>
 
+<script src="https://accounts.google.com/gsi/client?hl=en" async></script>
 <script>
    const content = document.querySelector("#content")
    const btn = document.querySelector("button")
@@ -38,6 +37,8 @@
    btn.addEventListener("click", () => {
       localStorage.removeItem("token")
       window.location.reload()
+
+     signOut()
    })
 
    function getProjects() {
@@ -104,6 +105,13 @@
       div.appendChild(h1)
       div.appendChild(p)
       content.appendChild(div)
+   }
+
+   /*google Logout*/
+   function signOut() {
+     google.accounts.id.revoke("paracosas551@gmail.com", done => {
+       console.log("revoked")
+     })
    }
 </script>
 </body>

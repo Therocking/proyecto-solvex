@@ -39,8 +39,25 @@
     </form>
     <p id="msg"></p>
   </div>
+
+      <!--google sign-in botton-->
+  <div id="g_id_onload"
+        data-client_id="618315645994-b6pavklg57rv1i2bt9uu3q2i8dhu18ah.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse"
+        data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-locale="en"
+        data-logo_alignment="left">
+    </div>
 </div>
 
+<script src="https://accounts.google.com/gsi/client?hl=en" async></script>
 <script>
    const form = document.querySelector("#form")
    const btn = document.querySelector("button")
@@ -73,11 +90,34 @@
 	    }
 
 	    localStorage.setItem("token", `Bearer ${dataResp.token}`)
-	    localStorage.setItem("user", `Bearer ${dataResp.user}`)
 	    window.location.href="dashboard"
 	 })
 	 .catch(err => console.log(err))
    }
+
+   /*google sign-in*/
+  async function handleCredentialResponse(response) {
+     // decodeJwtResponse() is a custom function defined by you
+     // to decode the credential response.
+     await fetch("/api/auth/google", {
+       method: "POST",
+       headers: {
+        "Content-Type": "application/json"
+       },
+       body: JSON.stringify(response)
+     })
+      .then(resp => resp.json())
+     .then(data => {
+        if(data.msg) {
+          msg.textContent = data.msg
+          return
+        }
+
+        localStorage.setItem("token", `Bearer ${data.token}`)
+        window.location.href="dashboard"
+     })
+     .catch(err => console.log(err))
+  }
 </script>
 </body>
 </html>
