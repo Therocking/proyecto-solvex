@@ -2,6 +2,7 @@
 # Gestion de proyectos y usuarios
 
 ```Version de node: 20.11.0```
+```Usuario de prueba - name: postman2@google.com pass: 1234 ```
 
 ## Tecnologías
 
