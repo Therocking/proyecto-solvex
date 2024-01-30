@@ -2,7 +2,7 @@
 # Gestion de proyectos y usuarios
 
 ```Version de node: 20.11.0```
-```Usuario de prueba - name: postman2@google.com pass: 1234 ```
+
 
 ## Tecnologías
 
@@ -79,6 +79,7 @@ Para ejecutar los test, correr el siguiente comando.
 5. Ejecutar `pnpm run dev` para levantar el servidor en desarrollo.
     
 ## Documentation
+```Usuario de prueba - name: postman2@google.com pass: 1234 ```
 
 [Postman](https://documenter.getpostman.com/view/32489654/2s9YypFPFF)
 
