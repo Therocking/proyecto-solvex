@@ -103,7 +103,7 @@ Para ejecutar los test, correr el siguiente comando.
 
 ##### Example cURL
 ```cURL
-curl -H "Content-Type: application/json" -H "Authorization: Bearer {{token}}" -X POST -d '{"name": "anne", "mail": "jane@gmail.com", "password": "1234"}' "{{url}}/api/auth/register"
+curl -H "Content-Type: application/json" -X POST -d '{"name": "anne", "mail": "jane@gmail.com", "password": "1234"}' "{{url}}/api/auth/register"
 ```
 
 
@@ -120,7 +120,7 @@ curl -H "Content-Type: application/json" -H "Authorization: Bearer {{token}}" -X
 
 ##### Example cURL
 ```cURL
-curl -H "Content-Type: application/json" -H "Authorization: Bearer {{token}}" -X POST -d '{"mail": "jane@gmail.com", "password": "1234"}' "{{url}}/api/auth/login"
+curl -H "Content-Type: application/json" -X POST -d '{"mail": "jane@gmail.com", "password": "1234"}' "{{url}}/api/auth/login"
 ```
 
 #### Obtener todos los usuarios
